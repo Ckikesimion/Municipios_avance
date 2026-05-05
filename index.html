@@ -1,1 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Mapas de Avance</title>
+    <style>
+        /* Diseño General */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; background-color: #f4f4f9; }
+        header { background-color: #2c3e50; color: white; padding: 1rem; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        
+        /* Contenedor de Controles */
+        #controles { background: white; padding: 15px; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; border-bottom: 1px solid #ddd; }
+        .seccion-control { display: flex; flex-direction: column; align-items: center; border-right: 1px solid #eee; padding-right: 20px; }
+        .seccion-control:last-child { border-right: none; }
+        
+        h3 { margin: 0 0 10px 0; font-size: 0.9rem; color: #666; text-transform: uppercase; }
+        .botonera { display: flex; gap: 10px; }
 
+        /* Estilo de Botones */
+        button { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; background-color: #ecf0f1; color: #34495e; font-weight: bold; transition: all 0.3s; }
+        button:hover { background-color: #dcdde1; }
+        button.activo { background-color: #3498db; color: white; }
+        
+        /* Ocultar secciones inicialmente */
+        .oculto { display: none !important; }
+
+        /* Visor de Mapa */
+        #contenedor-mapa { flex-grow: 1; position: relative; background-color: #e5e5e5; }
+        iframe { width: 100%; height: 100%; border: none; }
+        .mensaje-inicio { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #7f8c8d; text-align: center; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Visualizador de Avance Físico y Financiero</h1>
+</header>
+
+<div id="controles">
+    <!-- Selección de Año -->
+    <div class="seccion-control">
+        <h3>Seleccione Año</h3>
+        <div class="botonera">
+            <button onclick="seleccionarAño(this, '2024')">2024</button>
+            <button onclick="seleccionarAño(this, '2025')">2025</button>
+        </div>
+    </div>
+
+    <!-- Selección de Cuatrimestre -->
+    <div id="seccion-cuatri" class="seccion-control oculto">
+        <h3>Cuatrimestre</h3>
+        <div class="botonera">
+            <button onclick="seleccionarCuatri(this, 'c1')">C1</button>
+            <button onclick="seleccionarCuatri(this, 'c2')">C2</button>
+            <button onclick="seleccionarCuatri(this, 'c3')">C3</button>
+        </div>
+    </div>
+
+    <!-- Selección de Tipo de Avance -->
+    <div id="seccion-avance" class="seccion-control oculto">
+        <h3>Tipo de Avance</h3>
+        <div class="botonera">
+            <button onclick="cargarMapa(this, 'fisico')">Físico</button>
+            <button onclick="cargarMapa(this, 'financiero')">Financiero</button>
+        </div>
+    </div>
+</div>
+
+<div id="contenedor-mapa">
+    <div id="mensaje" class="mensaje-inicio">
+        <p>Seleccione un año, cuatrimestre y tipo de avance para visualizar el mapa.</p>
+    </div>
+    <iframe id="visor" src=""></iframe>
+</div>
+
+<script>
+    let añoGlobal = '';
+    let cuatriGlobal = '';
+
+    function seleccionarAño(elemento, año) {
+        añoGlobal = año;
+        limpiarBotones(elemento.parentElement);
+        elemento.classList.add('activo');
+        
+        // Resetear siguientes pasos
+        document.getElementById('seccion-cuatri').classList.remove('oculto');
+        document.getElementById('seccion-avance').classList.add('oculto');
+        resetVisor();
+    }
+
+    function seleccionarCuatri(elemento, cuatri) {
+        cuatriGlobal = cuatri;
+        limpiarBotones(elemento.parentElement);
+        elemento.classList.add('activo');
+        
+        document.getElementById('seccion-avance').classList.remove('oculto');
+        resetVisor();
+    }
+
+    function cargarMapa(elemento, tipo) {
+        limpiarBotones(elemento.parentElement);
+        elemento.classList.add('activo');
+        
+        document.getElementById('mensaje').classList.add('oculto');
+        
+        // CONSTRUCCIÓN DE LA RUTA:
+        // La carpeta debe llamarse exactamente así en tu GitHub: mapas/2024_c1_fisico/index.html
+        const nombreCarpeta = `${añoGlobal}_${cuatriGlobal}_${tipo}`;
+        const rutaFinal = `mapas/${nombreCarpeta}/index.html`;
+        
+        document.getElementById('visor').src = rutaFinal;
+    }
+
+    function limpiarBotones(contenedor) {
+        const botones = contenedor.querySelectorAll('button');
+        botones.forEach(b => b.classList.remove('activo'));
+    }
+
+    function resetVisor() {
+        document.getElementById('visor').src = "";
+        document.getElementById('mensaje').classList.remove('oculto');
+    }
+</script>
+
+</body>
+</html>
