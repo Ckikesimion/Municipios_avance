@@ -174,6 +174,30 @@
             document.getElementById('visor').src = ruta;
         }
     }
+  function limpiarFiltros() {
+    // 1. Reiniciamos los valores de los selectores a vacío ("")
+    document.getElementById("select-año").value = "";
+    document.getElementById("select-cuatri").value = "";
+    document.getElementById("select-avance").value = "";
+
+    // 2. Ocultamos las secciones de cuatrimestre y avance para reiniciar el flujo
+    document.getElementById("div-cuatri").classList.add("oculto");
+    document.getElementById("div-avance").classList.add("oculto");
+
+    // 3. Limpiamos el mapa (el visor) para que la pantalla vuelva a estar blanca
+    const visor = document.getElementById("visor");
+    if (visor) {
+        visor.src = ""; // Esto quita el mapa actual
+    }
+
+    // 4. Mostramos el mensaje inicial de "Seleccione los filtros"
+    const mensaje = document.getElementById("mensaje");
+    if (mensaje) {
+        mensaje.classList.remove("oculto");
+    }
+
+    console.log("Interfaz reiniciada correctamente");
+}  
 </script>
 
 </body>
