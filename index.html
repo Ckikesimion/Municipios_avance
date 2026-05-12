@@ -50,6 +50,27 @@
         }
 
         .oculto { display: none; }
+        #controles {
+    position: relative; /* Esto permite que el botón se posicione respecto al contenedor */
+    padding-top: 20px;
+}
+
+#btn-limpiar {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    background-color: #f44336; /* Rojo para que resalte */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+#btn-limpiar:hover {
+    background-color: #d32f2f;
+}
     </style>
 </head>
 <body>
@@ -92,7 +113,11 @@
             <option value="fisico">Avance Físico</option>
             <option value="financiero">Avance Financiero</option>
         </select>
-    </div>
+       </div>
+         <!-- Agrega esto después del último selector -->
+<button type="button" id="btn-limpiar" onclick="limpiarFiltros()">
+    Limpiar Filtros
+</button>
 </div>
 
 <div id="contenedor-mapa">
