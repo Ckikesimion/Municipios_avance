@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="./resources/qgis2web.css">
         
         <style>
-        /* === 1. CONTROL DE PANTALLA COMPLETA === */
+        /* === 1. COMPORTAMIENTO BASE DE PANTALLA === */
         html, body {
             background-color: #ffffff;
             margin: 0;
@@ -23,26 +23,26 @@
             overflow: hidden; 
         }
 
-        /* Contenedor que obliga al mapa a usar el fondo total */
+        /* Contenedor base del mapa */
         .map-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1; /* Al fondo */
+            z-index: 1;
         }
         #map {
             width: 100%;
             height: 100%;
         }
 
-        /* === 2. CAPAS DE ELEMENTOS FLOTANTES EN COMPUTADORA === */
+        /* Capas de prioridad para elementos flotantes (Escritorio) */
         .cuadro-info, .firma-kike, .logo-fuente, .btn-descarga {
-            z-index: 2000 !important; /* Capa superior para no ser cubiertos por nada */
+            z-index: 2000 !important;
         }
 
-        /* === 3. CONTROLES NATIVOS DE QGIS === */
+        /* === 2. CONTROLES NATIVOS DE QGIS === */
         .ol-control > * {
             background-color: #f8f8f8!important;
             color: #444444!important;
@@ -62,47 +62,64 @@
             padding: 2px !important;
         } 
 
-        /* === 4. DISEÑO ADAPTATIVO PARA CELULARES === */
-        @media (max-width: 600px) {
-            .btn-descarga {
-                top: 10px !important;
-                left: 10px !important;
+        /* === 3. REGLAS EXCLUSIVAS PARA CELULARES (max-width: 768px) === */
+        @media (max-width: 768px) {
+            
+            /* Empujamos el mapa un poco hacia abajo para dar espacio a los filtros inyectados */
+            .map-container {
+                top: 140px !important; 
+                height: calc(100% - 140px) !important;
             }
 
+            /* Botón de descarga arriba a la izquierda, debajo de los filtros */
+            .btn-descarga {
+                top: 150px !important;
+                left: 10px !important;
+            }
+            .btn-descarga a {
+                padding: 6px 10px !important;
+                font-size: 11px !important;
+            }
+
+            /* Transformamos el cuadro informativo azul en un panel flotante inferior */
             .cuadro-info {
                 top: auto !important;
-                bottom: 80px !important; /* Panel inferior flotante */
-                left: 5% !important;
-                right: 5% !important;
+                bottom: 65px !important; /* Separación para los logos de abajo */
+                left: 3% !important;
                 transform: none !important;
-                max-width: 90% !important;
-                width: 90% !important;
+                max-width: 94% !important;
+                width: 94% !important;
                 padding: 10px !important;
-                background: rgba(255, 255, 255, 0.95) !important;
-                box-shadow: 0px -2px 10px rgba(0,0,0,0.15) !important;
+                background: rgba(255, 255, 255, 0.96) !important;
+                box-shadow: 0px -2px 8px rgba(0,0,0,0.2) !important;
+                border: 1px solid #002060 !important;
             }
             .cuadro-info p { 
                 font-size: 11px !important; 
                 line-height: 1.3 !important; 
             }
 
+            /* Logo y Fuente compactos en la esquina inferior izquierda */
             .logo-fuente {
                 bottom: 10px !important;
                 left: 10px !important;
                 padding: 4px 8px !important;
-                gap: 8px !important;
+                gap: 6px !important;
+                background: rgba(255,255,255,0.9) !important;
             }
             .logo-fuente img { 
-                height: 25px !important; 
+                height: 25px !important; /* Imagen más pequeña para no saturar */
             }
             .logo-fuente h1 { 
                 font-size: 9px !important; 
             }
 
+            /* Firma reducida en la esquina inferior derecha */
             .firma-kike {
                 bottom: 10px !important;
                 right: 10px !important;
                 padding: 4px 8px !important;
+                background: rgba(255,255,255,0.9) !important;
             }
             .firma-kike h1 { font-size: 10px !important; }
             .firma-kike p { font-size: 8px !important; }
