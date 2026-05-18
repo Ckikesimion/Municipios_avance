@@ -5,72 +5,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma de Mapas de Avance</title>
     <style>
-        /* Diseño General */
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; background-color: #f4f4f9; }
-        header { background-color: #2c3e50; color: white; padding: 1rem; text-align: center; }
+        /* === DISEÑO GENERAL === */
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            background-color: #f4f4f9; 
+        }
         
-        /* Contenedor de Selectores */
+        header { 
+            background-color: #2c3e50; 
+            color: white; 
+            padding: 1rem; 
+            text-align: center; 
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        /* === CONTENEDOR DE SELECTORES (Flexbox Inteligente) === */
         #controles { 
             background: white; 
-            padding: 15px; 
+            padding: 15px 20px; 
             display: flex; 
             flex-wrap: wrap; 
-            gap: 30px; 
+            gap: 20px; 
             justify-content: center; 
             border-bottom: 1px solid #ddd; 
             align-items: flex-end;
+            position: relative;
         }
 
-        .grupo-seleccion { display: flex; flex-direction: column; gap: 8px; }
-        label { font-size: 0.8rem; font-weight: bold; color: #555; text-transform: uppercase; }
+        .grupo-seleccion { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+        }
+        
+        label { 
+            font-size: 0.8rem; 
+            font-weight: bold; 
+            color: #555; 
+            text-transform: uppercase; 
+        }
 
-        /* Estilo de los Menús Desplegables */
+        /* === MENÚS DESPLEGABLES === */
         select {
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
             background-color: #fff;
             font-size: 1rem;
-            min-width: 150px;
+            min-width: 160px;
             cursor: pointer;
             outline: none;
+            transition: border-color 0.3s;
         }
-
         select:focus { border-color: #3498db; }
 
-        /* Visor de Mapa */
-        #contenedor-mapa { flex-grow: 1; position: relative; }
-        iframe { width: 100%; height: 100%; border: none; }
+        /* === BOTÓN LIMPIAR FILTROS (Solución de posición en PC) === */
+        #btn-limpiar {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 11px 15px; /* Ajustado para que mida lo mismo que los selects */
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        #btn-limpiar:hover {
+            background-color: #d32f2f;
+        }
+
+        /* === VISOR DE MAPA === */
+        #contenedor-mapa { 
+            flex-grow: 1; 
+            position: relative; 
+            width: 100%;
+            height: 100%;
+        }
+        iframe { 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+            display: block;
+        }
         
         .mensaje-inicio { 
-            position: absolute; top: 50%; left: 50%; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
             transform: translate(-50%, -50%); 
-            color: #7f8c8d; text-align: center; 
+            color: #7f8c8d; 
+            text-align: center; 
             width: 80%;
         }
 
-        .oculto { display: none; }
-        #controles {
-    position: relative; /* Esto permite que el botón se posicione respecto al contenedor */
-    padding-top: 20px;
-}
+        .oculto { display: none !important; }
 
-#btn-limpiar {
-    position: absolute;
-    top: 0;
-    right: 300px;
-    background-color: #f44336; /* Rojo para que resalte */
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-}
+        /* ========================================================
+           === REGLAS EXCLUSIVAS PARA DISPOSITIVOS MÓVILES ===
+           ======================================================== */
+        @media (max-width: 768px) {
+            header {
+                padding: 0.8rem;
+            }
+            header h1 {
+                font-size: 1.2rem; /* Título más pequeño para que no ocupe 3 líneas */
+            }
 
-#btn-limpiar:hover {
-    background-color: #d32f2f;
-}
+            #controles {
+                padding: 12px;
+                gap: 12px;
+                /* Usamos Grid en móvil para que los elementos se organicen simétricamente */
+                display: grid;
+                grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+                align-items: end;
+            }
+
+            .grupo-seleccion {
+                width: 100%;
+            }
+
+            select {
+                width: 100%; /* El select se adapta al ancho de su columna grid */
+                min-width: unset;
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+
+            /* Hacemos que el botón de limpiar ocupe todo el ancho inferior abajo de los selectores */
+            #btn-limpiar {
+                grid-column: span 2; /* Se estira a lo ancho de las 2 columnas */
+                width: 100%;
+                padding: 10px;
+                font-size: 13px;
+                text-align: center;
+            }
+            
+            .mensaje-inicio h3 {
+                font-size: 1.1rem;
+            }
+            .mensaje-inicio p {
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -80,13 +164,10 @@
 </header>
 
 <div id="controles">
-    <!-- Selector de Año -->
     <div class="grupo-seleccion">
         <label for="select-año">Seleccione Año</label>
         <select id="select-año" onchange="actualizarInterfaz()">
             <option value="">-- Elegir Año --</option>
-            <!-- <option value="2023">2023</option> -->
-            <!-- <option value="2024">2024</option> -->
             <option value="2025">2025</option>
             <option value="2026">2026</option>
             <option value="2027">2027</option>
@@ -94,7 +175,6 @@
         </select>
     </div>
 
-    <!-- Selector de Cuatrimestre -->
     <div id="div-cuatri" class="grupo-seleccion oculto">
         <label for="select-cuatri">Cuatrimestre</label>
         <select id="select-cuatri" onchange="actualizarInterfaz()">
@@ -105,7 +185,6 @@
         </select>
     </div>
 
-    <!-- Selector de Tipo de Avance -->
     <div id="div-avance" class="grupo-seleccion oculto">
         <label for="select-avance">Tipo de Avance</label>
         <select id="select-avance" onchange="cargarMapa()">
@@ -113,11 +192,11 @@
             <option value="fisico">Avance Físico</option>
             <option value="financiero">Avance Financiero</option>
         </select>
-       </div>
-         <!-- Agrega esto después del último selector -->
-<button type="button" id="btn-limpiar" onclick="limpiarFiltros()">
-    Limpiar Filtros
-</button>
+    </div>
+
+    <button type="button" id="btn-limpiar" onclick="limpiarFiltros()">
+        Limpiar Filtros
+    </button>
 </div>
 
 <div id="contenedor-mapa">
@@ -174,30 +253,31 @@
             document.getElementById('visor').src = ruta;
         }
     }
-  function limpiarFiltros() {
-    // 1. Reiniciamos los valores de los selectores a vacío ("")
-    document.getElementById("select-año").value = "";
-    document.getElementById("select-cuatri").value = "";
-    document.getElementById("select-avance").value = "";
 
-    // 2. Ocultamos las secciones de cuatrimestre y avance para reiniciar el flujo
-    document.getElementById("div-cuatri").classList.add("oculto");
-    document.getElementById("div-avance").classList.add("oculto");
+    function limpiarFiltros() {
+        // 1. Reiniciamos los valores de los selectores a vacío ("")
+        document.getElementById("select-año").value = "";
+        document.getElementById("select-cuatri").value = "";
+        document.getElementById("select-avance").value = "";
 
-    // 3. Limpiamos el mapa (el visor) para que la pantalla vuelva a estar blanca
-    const visor = document.getElementById("visor");
-    if (visor) {
-        visor.src = ""; // Esto quita el mapa actual
-    }
+        // 2. Ocultamos las secciones de cuatrimestre y avance para reiniciar el flujo
+        document.getElementById("div-cuatri").classList.add("oculto");
+        document.getElementById("div-avance").classList.add("oculto");
 
-    // 4. Mostramos el mensaje inicial de "Seleccione los filtros"
-    const mensaje = document.getElementById("mensaje");
-    if (mensaje) {
-        mensaje.classList.remove("oculto");
-    }
+        // 3. Limpiamos el mapa (el visor) para que la pantalla vuelva a estar blanca
+        const visor = document.getElementById("visor");
+        if (visor) {
+            visor.src = ""; 
+        }
 
-    console.log("Interfaz reiniciada correctamente");
-}  
+        // 4. Mostramos el mensaje inicial de "Seleccione los filtros"
+        const mensaje = document.getElementById("mensaje");
+        if (mensaje) {
+            mensaje.classList.remove("oculto");
+        }
+
+        console.log("Interfaz reiniciada correctamente");
+    }  
 </script>
 
 </body>
