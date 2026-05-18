@@ -42,6 +42,59 @@
             padding: 0;
             margin: 0;
         }
+	/* AJUSTE PARA MÓVILES (Celulares) */
+@media (max-width: 600px) {
+    
+    /* 1. EL CONTENEDOR DEL MAPA */
+    /* Le damos un poco más de espacio arriba si tus filtros de año/cuatrimestre se rompen en dos filas */
+    .map-container {
+        height: calc(100vh - 180px); 
+    }
+
+    /* 2. BOTÓN DE DESCARGA */
+    /* Lo centramos o lo movemos para que no estorbe */
+    div style*="top: 15px" { /* O la clase que le des al botón */
+        top: 10px !important;
+        left: 10px !important;
+    }
+
+    /* 3. CUADRO INFORMATIVO (Se convierte en panel inferior) */
+    .cuadro-info {
+        top: auto !important;
+        bottom: 60px !important; /* Lo subimos un poco para dejarle espacio a los logos */
+        left: 5% !important;
+        right: 5% !important;
+        transform: none !important;
+        max-width: 90% !important;
+        width: 90% !important;
+        padding: 10px !important;
+        font-size: 11px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+    }
+    .cuadro-info p { font-size: 11px !important; line-height: 1.3 !important; }
+
+    /* 4. LOGO Y FUENTE (Esquina inferior izquierda - Más pequeños) */
+    .logo-fuente {
+        bottom: 10px !important;
+        left: 10px !important;
+        padding: 3px 6px !important;
+    }
+    .logo-fuente img {
+        height: 25px !important; /* Reducimos el logo para que no sature */
+    }
+    .logo-fuente h1 {
+        font-size: 9px !important;
+    }
+
+    /* 5. FIRMA KIKE (Esquina inferior derecha - Más pequeña) */
+    .firma-kike {
+        bottom: 10px !important;
+        right: 10px !important;
+        padding: 4px 8px !important;
+    }
+    .firma-kike h1 { font-size: 10px !important; }
+    .firma-kike p { font-size: 8px !important; }
+}
         </style>
         <title></title>
     </head>
