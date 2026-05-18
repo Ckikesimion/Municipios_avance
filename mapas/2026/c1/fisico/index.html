@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="./resources/ol.css">
@@ -11,10 +11,38 @@
         <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
         <link rel="stylesheet" href="./resources/ol-layerswitcher.css">
         <link rel="stylesheet" href="./resources/qgis2web.css">
+        
         <style>
+        /* === 1. CONTROL DE PANTALLA COMPLETA === */
         html, body {
             background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden; 
         }
+
+        /* Contenedor que obliga al mapa a usar el fondo total */
+        .map-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* Al fondo */
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* === 2. CAPAS DE ELEMENTOS FLOTANTES EN COMPUTADORA === */
+        .cuadro-info, .firma-kike, .logo-fuente, .btn-descarga {
+            z-index: 2000 !important; /* Capa superior para no ser cubiertos por nada */
+        }
+
+        /* === 3. CONTROLES NATIVOS DE QGIS === */
         .ol-control > * {
             background-color: #f8f8f8!important;
             color: #444444!important;
@@ -33,56 +61,98 @@
             background-color: rgba(255,255,255,.4) !important;
             padding: 2px !important;
         } 
-        </style>
 
-        <style>
-        html, body, #map {
-            width: 100%;
-            height: 100%;
-            padding: 0;
-            margin: 0;
+        /* === 4. DISEÑO ADAPTATIVO PARA CELULARES === */
+        @media (max-width: 600px) {
+            .btn-descarga {
+                top: 10px !important;
+                left: 10px !important;
+            }
+
+            .cuadro-info {
+                top: auto !important;
+                bottom: 80px !important; /* Panel inferior flotante */
+                left: 5% !important;
+                right: 5% !important;
+                transform: none !important;
+                max-width: 90% !important;
+                width: 90% !important;
+                padding: 10px !important;
+                background: rgba(255, 255, 255, 0.95) !important;
+                box-shadow: 0px -2px 10px rgba(0,0,0,0.15) !important;
+            }
+            .cuadro-info p { 
+                font-size: 11px !important; 
+                line-height: 1.3 !important; 
+            }
+
+            .logo-fuente {
+                bottom: 10px !important;
+                left: 10px !important;
+                padding: 4px 8px !important;
+                gap: 8px !important;
+            }
+            .logo-fuente img { 
+                height: 25px !important; 
+            }
+            .logo-fuente h1 { 
+                font-size: 9px !important; 
+            }
+
+            .firma-kike {
+                bottom: 10px !important;
+                right: 10px !important;
+                padding: 4px 8px !important;
+            }
+            .firma-kike h1 { font-size: 10px !important; }
+            .firma-kike p { font-size: 8px !important; }
         }
         </style>
-        <title></title>
+        <title>Visualizador de Avances</title>
     </head>
-      <body>
-        <div style="position: absolute; top: 50%; left: 20px; transform: translateY(-50%); z-index: 2000; background: white; padding: 15px; border: 2px solid #002060; border-radius: 8px; max-width: 280px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2);">
-    <p style="margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 13px; color: #002060; line-height: 1.4; font-weight: bold; text-align: justify;">
-        El presente proyecto ofrece una visualización interactiva de los avances y resultados a nivel municipal del primer cuatrimestre de 2026 en Guatemala, con la posibilidad de alternar entre municipios para facilitar el análisis comparativo.
-    </p>
-</div>
-<div style="position: absolute; bottom: 10px; right: 20px; z-index: 2000; background: rgba(255,255,255,0.7); padding: 5px 10px; border-radius: 5px;">
-    <h1 style="margin: 0; font-size: 12px; color: #002060; font-family: 'Segoe UI', sans-serif; font-weight: bold;">
-        kike</h1>
-	    <p style="margin: 0; font-size: 9px; color: #002060; font-family: 'Segoe UI', sans-serif; opacity: 0.8;">
-        Licencia CC BY-NC 4.0</p>
-</div>
-	<div style="position: absolute; bottom: 10px; left: 20px; z-index: 2000;">
-    <img src="images/logo.png" alt="Logo" style="height: 50px; width: auto; opacity: 0.9;">
-</div>
-		<div style="position: absolute; top: 70px; left: 20px; z-index: 1000;">
-    <a href="Avance I 2026.xlsx" download style="background-color: #002060; color: white; padding: 8px 12px; text-decoration: none; border-radius: 5px; font-family: sans-serif; font-size: 12px; font-weight: bold;">
-        📥 Descargar Datos Excel
-    </a>
-</div>
-<div style="position: absolute; bottom: 10px; left: 100px; z-index: 1000; background: white; padding: 10px;
-   	 <h1 style="margin: 0; font-size: 10px; rgb(0,32,96); font-family: sans-serif;">Fuente: Siplangl</h1>
-</div>
-    
-        <div id="map">
-            <div id="popup" class="ol-popup">
-                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                <div id="popup-content"></div>
+    <body>
+
+        <div class="cuadro-info" style="position: absolute; top: 50%; left: 20px; transform: translateY(-50%); background: white; padding: 15px; border: 2px solid #002060; border-radius: 8px; max-width: 280px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2);">
+            <p style="margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 13px; color: #002060; line-height: 1.4; font-weight: bold; text-align: justify;">
+                El presente proyecto ofrece una visualización interactiva de los avances y resultados a nivel municipal del primer cuatrimestre de 2026 en Guatemala, con la posibilidad de alternar entre municipios para facilitar el análisis comparativo.
+            </p>
+        </div>
+
+        <div class="btn-descarga" style="position: absolute; top: 160px; left: 20px;">
+            <a href="Avance I 2026.xlsx" download style="background-color: #002060; color: white; padding: 8px 12px; text-decoration: none; border-radius: 5px; font-family: sans-serif; font-size: 12px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
+                📥 Descargar Datos Excel
+            </a>
+        </div>
+
+        <div class="logo-fuente" style="position: absolute; bottom: 10px; left: 20px; display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.8); padding: 6px 12px; border-radius: 6px; box-shadow: 1px 1px 5px rgba(0,0,0,0.1); border: 1px solid #ccc;">
+            <img src="images/logo.png" alt="Logo" style="height: 35px; width: auto; opacity: 0.9;">
+            <h1 style="margin: 0; font-size: 11px; color: rgb(0,32,96); font-family: sans-serif; font-weight: bold;">Fuente: Siplangl</h1>
+        </div>
+
+        <div class="firma-kike" style="position: absolute; bottom: 10px; right: 20px; background: rgba(255,255,255,0.7); padding: 5px 10px; border-radius: 5px;">
+            <h1 style="margin: 0; font-size: 12px; color: #002060; font-family: 'Segoe UI', sans-serif; font-weight: bold;">kike</h1>
+            <p style="margin: 0; font-size: 9px; color: #002060; font-family: 'Segoe UI', sans-serif; opacity: 0.8;">Licencia CC BY-NC 4.0</p>
+        </div>
+
+        <div class="map-container">
+            <div id="map">
+                <div id="popup" class="ol-popup">
+                    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                    <div id="popup-content"></div>
+                </div>
             </div>
         </div>
+
         <script src="resources/qgis2web_expressions.js"></script>
         <script src="./resources/functions.js"></script>
         <script src="./resources/ol.js"></script>
         <script src="./resources/ol-layerswitcher.js"></script>
         <script src="resources/photon-geocoder-autocomplete.min.js"></script>
         <script src="resources/olms.js"></script>
-        <script src="layers/Belice_0.js"></script><script src="layers/Fisico_1_2026_1.js"></script>
-        <script src="styles/Belice_0_style.js"></script><script src="styles/Fisico_1_2026_1_style.js"></script>
+        <script src="layers/Belice_0.js"></script>
+        <script src="layers/Fisico_1_2026_1.js"></script>
+        <script src="styles/Belice_0_style.js"></script>
+        <script src="styles/Fisico_1_2026_1_style.js"></script>
         <script src="./layers/layers.js" type="text/javascript"></script> 
         <script src="./resources/Autolinker.min.js"></script>
         <script src="./resources/qgis2web.js"></script>        
