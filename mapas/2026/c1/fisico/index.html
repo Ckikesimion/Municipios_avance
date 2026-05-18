@@ -13,16 +13,34 @@
         <link rel="stylesheet" href="./resources/qgis2web.css">
         
         <style>
-        /* === ESTILOS GENERALES Y BASE === */
+        /* === 1. ESTRUCTURA BASE (Flexbox para Computadora) === */
         html, body {
             background-color: #ffffff;
             margin: 0;
             padding: 0;
             height: 100%;
             width: 100%;
-            overflow: hidden; /* Evita barras de scroll molestas */
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column; /* Alinea controles inyectados arriba, mapa abajo */
         }
         
+        /* CONTENEDOR DEL MAPA (Escritorio) */
+        /* En lugar de ser absoluto, crece dinámicamente en el espacio que queda libre */
+        .map-container {
+            flex-grow: 1;
+            width: 100%;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            z-index: 1;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* === 2. CONTROLES NATIVOS DE QGIS === */
         .ol-control > * {
             background-color: #f8f8f8!important;
             color: #444444!important;
@@ -42,23 +60,20 @@
             padding: 2px !important;
         } 
 
-        /* === CONTENEDOR DEL MAPA (Para Computadoras) === */
-        /* Lo hacemos absoluto para que ocupe TODA la pantalla por detrás */
-        .map-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1; /* Queda al fondo de todo */
-        }
-        #map {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* === AJUSTE PARA MÓVILES (Celulares) === */
+        /* === 3. AJUSTE EXCLUSIVO PARA MÓVILES (Celulares) === */
         @media (max-width: 600px) {
+            html, body {
+                display: block; /* Desactivamos flexbox en celular para que no colapse */
+            }
+            
+            .map-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100% !important;
+                width: 100% !important;
+            }
+
             .btn-descarga {
                 top: 10px !important;
                 left: 10px !important;
@@ -66,7 +81,7 @@
 
             .cuadro-info {
                 top: auto !important;
-                bottom: 75px !important; /* Lo subimos para dejar espacio a los logos */
+                bottom: 75px !important; /* Panel inferior flotante */
                 left: 5% !important;
                 right: 5% !important;
                 transform: none !important;
@@ -86,12 +101,8 @@
                 left: 10px !important;
                 padding: 3px 6px !important;
             }
-            .logo-fuente img {
-                height: 25px !important;
-            }
-            .logo-fuente h1 {
-                font-size: 9px !important;
-            }
+            .logo-fuente img { height: 25px !important; }
+            .logo-fuente h1 { font-size: 9px !important; }
 
             .firma-kike {
                 bottom: 10px !important;
