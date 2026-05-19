@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="./resources/ol.css">
@@ -11,45 +11,178 @@
         <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
         <link rel="stylesheet" href="./resources/ol-layerswitcher.css">
         <link rel="stylesheet" href="./resources/qgis2web.css">
+        
         <style>
+        /* === 1. CONTROL DE PANTALLA TOTAL === */
         html, body {
             background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden; 
         }
-        .ol-control > * {
-            background-color: #f8f8f8!important;
-            color: #444444!important;
-            border-radius: 0px;
-        }
-        .ol-attribution a, .gcd-gl-input::placeholder, .search-layer-input-search::placeholder {
-            color: #444444!important;
-        }
-        .search-layer-input-search {
-            background-color: #f8f8f8!important;
-        }
-        .ol-control > *:focus, .ol-control >*:hover {
-            background-color: rgba(248, 248, 248, 0.7)!important;
-        } 
-        .ol-control {
-            background-color: rgba(255,255,255,.4) !important;
-            padding: 2px !important;
-        } 
-        </style>
 
-        <style>
-        html, body, #map {
+        .map-container {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            padding: 0;
-            margin: 0;
+            z-index: 1;
         }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* === 2. CAPAS FLOTANTES (Configuración PC) === */
+        .cuadro-info, .firma-kike, .logo-fuente, .btn-descarga {
+            position: absolute;
+            z-index: 2000 !important;
+        }
+
+        .cuadro-info {
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 15px;
+            border: 2px solid #002060;
+            border-radius: 8px;
+            max-width: 280px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+        .cuadro-info p {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 13px;
+            color: #002060;
+            line-height: 1.4;
+            font-weight: bold;
+            text-align: justify;
+        }
+
+        .btn-descarga {
+            top: 20px;
+            left: 20px;
+        }
+        .btn-descarga a {
+            background-color: #002060;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .logo-fuente {
+            bottom: 15px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.8);
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        .logo-fuente img { height: 35px; width: auto; opacity: 0.9; }
+        .logo-fuente h1 { margin: 0; font-size: 11px; color: rgb(0,32,96); font-family: sans-serif; font-weight: bold; }
+
+        .firma-kike {
+            bottom: 15px;
+            right: 20px;
+            background: rgba(255,255,255,0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .firma-kike h1 { margin: 0; font-size: 12px; color: #002060; font-family: 'Segoe UI', sans-serif; font-weight: bold; }
+        .firma-kike p { margin: 0; font-size: 9px; color: #002060; font-family: 'Segoe UI', sans-serif; opacity: 0.8; }
+
+        /* Controles nativos de QGIS */
+        .ol-control > * { background-color: #f8f8f8!important; color: #444444!important; border-radius: 0px; }
+        .ol-attribution a { color: #444444!important; }
+        .ol-control { background-color: rgba(255,255,255,.4) !important; padding: 2px !important; } 
+
+        /* === 3. DISEÑO CRÍTICO PARA CELULARES === */
+        @media (max-width: 768px) {
+            .btn-descarga {
+                top: 15px !important;
+                left: 10px !important;
+            }
+            .btn-descarga a {
+                padding: 6px 10px !important;
+                font-size: 11px !important;
+            }
+
+            /* Convertimos el cuadro azul en una barra inferior fija */
+            .cuadro-info {
+                top: auto !important;
+                bottom: 50px !important;
+                left: 2% !important;
+                transform: none !important;
+                max-width: 96% !important;
+                width: 96% !important;
+                padding: 8px !important;
+                background: rgba(255, 255, 255, 0.96) !important;
+                box-shadow: 0px -2px 8px rgba(0,0,0,0.2) !important;
+            }
+            .cuadro-info p { font-size: 11px !important; line-height: 1.2 !important; }
+
+            .logo-fuente {
+                bottom: 10px !important;
+                left: 10px !important;
+                padding: 4px 6px !important;
+                background: rgba(255,255,255,0.9) !important;
+            }
+            .logo-fuente img { height: 22px !important; }
+            .logo-fuente h1 { font-size: 9px !important; }
+
+            .firma-kike {
+                bottom: 10px !important;
+                right: 10px !important;
+                padding: 4px 6px !important;
+                background: rgba(255,255,255,0.9) !important;
+            }
+            .firma-kike h1 { font-size: 10px !important; }
+            .firma-kike p { font-size: 8px !important; }
+        }
+        .ol-zoom {
+    display: none !important;
+}
         </style>
-        <title></title>
+        <title>Visualizador de Avances</title>
     </head>
     <body>
-        <div id="map">
-            <div id="popup" class="ol-popup">
-                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                <div id="popup-content"></div>
+
+        <div class="cuadro-info">
+            <p>El presente proyecto ofrece una visualización interactiva de los avances a nivel municipal del primer cuatrimestre del año 2025, en Guatemala. Con la posibilidad de alternar entre municipios para facilitar el análisis comparativo.</p>
+        </div>
+
+        <div class="btn-descarga">
+            <a href="Avance 1 2025.xlsx" download>📥 Descargar Datos Excel</a>
+        </div>
+
+        <div class="logo-fuente">
+            <img src="images/logo.png" alt="Logo">
+            <h1>Fuente: Siplangl</h1>
+        </div>
+
+        <div class="firma-kike">
+            <h1>kike</h1>
+            <p>Licencia CC BY-NC 4.0</p>
+        </div>
+
+        <div class="map-container">
+            <div id="map">
+                <div id="popup" class="ol-popup">
+                    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                    <div id="popup-content"></div>
+                </div>
             </div>
         </div>
         <script src="resources/qgis2web_expressions.js"></script>
