@@ -1,7 +1,7 @@
 
-#Resultados Municipales Primer cuatrimestre 2026. Muestra el resultado físico y financiero de los municipios del pais de Guatemala.
+#Resultados Municipales. Muestra el resultado físico y financiero de los municipios del pais de Guatemala.
 
-Este proyecto presenta una visualización interactiva de los resultados físicos y financieros a nivel municipal para el primer cuatrimestre del año 2026. Ha sido generado utilizando QGIS y el plugin qgis2web, integrando datos geoespaciales críticos para la toma de decisiones.
+Este proyecto presenta una visualización interactiva de los resultados físicos y financieros a nivel municipal. Ha sido generado utilizando QGIS y el plugin qgis2web, integrando datos geoespaciales críticos para la toma de decisiones.
 
 #📍 Visualización del Diferendo Territorial El mapa incluye una etiqueta especial sobre el territorio de Belice, detallando el estado actual del Diferendo territorial, insular y marítimo, pendiente de resolver.
 
