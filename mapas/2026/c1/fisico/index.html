@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="./resources/qgis2web.css">
         
         <style>
-        /* === 1. COMPORTAMIENTO BASE DE PANTALLA === */
+        /* === 1. CONTROL DE PANTALLA TOTAL === */
         html, body {
             background-color: #ffffff;
             margin: 0;
@@ -23,7 +23,6 @@
             overflow: hidden; 
         }
 
-        /* Contenedor base del mapa */
         .map-container {
             position: absolute;
             top: 0;
@@ -37,43 +36,82 @@
             height: 100%;
         }
 
-        /* Capas de prioridad para elementos flotantes (Escritorio) */
+        /* === 2. CAPAS FLOTANTES (Configuración PC) === */
         .cuadro-info, .firma-kike, .logo-fuente, .btn-descarga {
+            position: absolute;
             z-index: 2000 !important;
         }
 
-        /* === 2. CONTROLES NATIVOS DE QGIS === */
-        .ol-control > * {
-            background-color: #f8f8f8!important;
-            color: #444444!important;
-            border-radius: 0px;
+        .cuadro-info {
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 15px;
+            border: 2px solid #002060;
+            border-radius: 8px;
+            max-width: 280px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
         }
-        .ol-attribution a, .gcd-gl-input::placeholder, .search-layer-input-search::placeholder {
-            color: #444444!important;
+        .cuadro-info p {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 13px;
+            color: #002060;
+            line-height: 1.4;
+            font-weight: bold;
+            text-align: justify;
         }
-        .search-layer-input-search {
-            background-color: #f8f8f8!important;
-        }
-        .ol-control > *:focus, .ol-control >*:hover {
-            background-color: rgba(248, 248, 248, 0.7)!important;
-        } 
-        .ol-control {
-            background-color: rgba(255,255,255,.4) !important;
-            padding: 2px !important;
-        } 
 
-        /* === 3. REGLAS EXCLUSIVAS PARA CELULARES (max-width: 768px) === */
+        .btn-descarga {
+            top: 20px;
+            left: 20px;
+        }
+        .btn-descarga a {
+            background-color: #002060;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-family: sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .logo-fuente {
+            bottom: 15px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.8);
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        .logo-fuente img { height: 35px; width: auto; opacity: 0.9; }
+        .logo-fuente h1 { margin: 0; font-size: 11px; color: rgb(0,32,96); font-family: sans-serif; font-weight: bold; }
+
+        .firma-kike {
+            bottom: 15px;
+            right: 20px;
+            background: rgba(255,255,255,0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .firma-kike h1 { margin: 0; font-size: 12px; color: #002060; font-family: 'Segoe UI', sans-serif; font-weight: bold; }
+        .firma-kike p { margin: 0; font-size: 9px; color: #002060; font-family: 'Segoe UI', sans-serif; opacity: 0.8; }
+
+        /* Controles nativos de QGIS */
+        .ol-control > * { background-color: #f8f8f8!important; color: #444444!important; border-radius: 0px; }
+        .ol-attribution a { color: #444444!important; }
+        .ol-control { background-color: rgba(255,255,255,.4) !important; padding: 2px !important; } 
+
+        /* === 3. DISEÑO CRÍTICO PARA CELULARES === */
         @media (max-width: 768px) {
-            
-            /* Empujamos el mapa un poco hacia abajo para dar espacio a los filtros inyectados */
-            .map-container {
-                top: 140px !important; 
-                height: calc(100% - 140px) !important;
-            }
-
-            /* Botón de descarga arriba a la izquierda, debajo de los filtros */
             .btn-descarga {
-                top: 150px !important;
+                top: 15px !important;
                 left: 10px !important;
             }
             .btn-descarga a {
@@ -81,44 +119,33 @@
                 font-size: 11px !important;
             }
 
-            /* Transformamos el cuadro informativo azul en un panel flotante inferior */
+            /* Convertimos el cuadro azul en una barra inferior fija */
             .cuadro-info {
                 top: auto !important;
-                bottom: 65px !important; /* Separación para los logos de abajo */
-                left: 3% !important;
+                bottom: 50px !important;
+                left: 2% !important;
                 transform: none !important;
-                max-width: 94% !important;
-                width: 94% !important;
-                padding: 10px !important;
+                max-width: 96% !important;
+                width: 96% !important;
+                padding: 8px !important;
                 background: rgba(255, 255, 255, 0.96) !important;
                 box-shadow: 0px -2px 8px rgba(0,0,0,0.2) !important;
-                border: 1px solid #002060 !important;
             }
-            .cuadro-info p { 
-                font-size: 11px !important; 
-                line-height: 1.3 !important; 
-            }
+            .cuadro-info p { font-size: 11px !important; line-height: 1.2 !important; }
 
-            /* Logo y Fuente compactos en la esquina inferior izquierda */
             .logo-fuente {
                 bottom: 10px !important;
                 left: 10px !important;
-                padding: 4px 8px !important;
-                gap: 6px !important;
+                padding: 4px 6px !important;
                 background: rgba(255,255,255,0.9) !important;
             }
-            .logo-fuente img { 
-                height: 25px !important; /* Imagen más pequeña para no saturar */
-            }
-            .logo-fuente h1 { 
-                font-size: 9px !important; 
-            }
+            .logo-fuente img { height: 22px !important; }
+            .logo-fuente h1 { font-size: 9px !important; }
 
-            /* Firma reducida en la esquina inferior derecha */
             .firma-kike {
                 bottom: 10px !important;
                 right: 10px !important;
-                padding: 4px 8px !important;
+                padding: 4px 6px !important;
                 background: rgba(255,255,255,0.9) !important;
             }
             .firma-kike h1 { font-size: 10px !important; }
@@ -129,26 +156,22 @@
     </head>
     <body>
 
-        <div class="cuadro-info" style="position: absolute; top: 50%; left: 20px; transform: translateY(-50%); background: white; padding: 15px; border: 2px solid #002060; border-radius: 8px; max-width: 280px; box-shadow: 2px 2px 10px rgba(0,0,0,0.2);">
-            <p style="margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 13px; color: #002060; line-height: 1.4; font-weight: bold; text-align: justify;">
-                El presente proyecto ofrece una visualización interactiva de los avances y resultados a nivel municipal del primer cuatrimestre de 2026 en Guatemala, con la posibilidad de alternar entre municipios para facilitar el análisis comparativo.
-            </p>
+        <div class="cuadro-info">
+            <p>El presente proyecto ofrece una visualización interactiva de los avances y resultados a nivel municipal del primer cuatrimestre de 2026 en Guatemala, con la posibilidad de alternar entre municipios para facilitar el análisis comparativo.</p>
         </div>
 
-        <div class="btn-descarga" style="position: absolute; top: 160px; left: 20px;">
-            <a href="Avance I 2026.xlsx" download style="background-color: #002060; color: white; padding: 8px 12px; text-decoration: none; border-radius: 5px; font-family: sans-serif; font-size: 12px; font-weight: bold; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);">
-                📥 Descargar Datos Excel
-            </a>
+        <div class="btn-descarga">
+            <a href="Avance I 2026.xlsx" download>📥 Descargar Datos Excel</a>
         </div>
 
-        <div class="logo-fuente" style="position: absolute; bottom: 10px; left: 20px; display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.8); padding: 6px 12px; border-radius: 6px; box-shadow: 1px 1px 5px rgba(0,0,0,0.1); border: 1px solid #ccc;">
-            <img src="images/logo.png" alt="Logo" style="height: 35px; width: auto; opacity: 0.9;">
-            <h1 style="margin: 0; font-size: 11px; color: rgb(0,32,96); font-family: sans-serif; font-weight: bold;">Fuente: Siplangl</h1>
+        <div class="logo-fuente">
+            <img src="images/logo.png" alt="Logo">
+            <h1>Fuente: Siplangl</h1>
         </div>
 
-        <div class="firma-kike" style="position: absolute; bottom: 10px; right: 20px; background: rgba(255,255,255,0.7); padding: 5px 10px; border-radius: 5px;">
-            <h1 style="margin: 0; font-size: 12px; color: #002060; font-family: 'Segoe UI', sans-serif; font-weight: bold;">kike</h1>
-            <p style="margin: 0; font-size: 9px; color: #002060; font-family: 'Segoe UI', sans-serif; opacity: 0.8;">Licencia CC BY-NC 4.0</p>
+        <div class="firma-kike">
+            <h1>kike</h1>
+            <p>Licencia CC BY-NC 4.0</p>
         </div>
 
         <div class="map-container">
