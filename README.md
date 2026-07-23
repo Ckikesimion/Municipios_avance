@@ -1,6 +1,8 @@
 
 #Resultados Municipales. Muestra el resultado físico y financiero de los municipios del pais de Guatemala.
 
+Visualización interactiva de los mapas de avance físico y financiero de los municipios de Guatemala, basados en los informes de SEGEPLAN
+
 Este proyecto presenta una visualización interactiva de los resultados físicos y financieros a nivel municipal. Ha sido generado utilizando QGIS y el plugin qgis2web, integrando datos geoespaciales críticos para la toma de decisiones.
 
 #📍 Visualización del Diferendo Territorial El mapa incluye una etiqueta especial sobre el territorio de Belice, detallando el estado actual del Diferendo territorial, insular y marítimo, pendiente de resolver.
