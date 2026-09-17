@@ -1,0 +1,53 @@
+var wms_layers = [];
+
+var format_Belice_0 = new ol.format.GeoJSON();
+var features_Belice_0 = format_Belice_0.readFeatures(json_Belice_0, 
+            {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'});
+var jsonSource_Belice_0 = new ol.source.Vector({
+    attributions: ' ',
+});
+jsonSource_Belice_0.addFeatures(features_Belice_0);
+var lyr_Belice_0 = new ol.layer.Vector({
+                declutter: false,
+                source:jsonSource_Belice_0, 
+                style: style_Belice_0,
+                popuplayertitle: 'Belice',
+                interactive: true,
+                title: '<img src="styles/legend/Belice_0.png" /> Belice'
+            });
+var format_Municipio_fisicoII2026_1 = new ol.format.GeoJSON();
+var features_Municipio_fisicoII2026_1 = format_Municipio_fisicoII2026_1.readFeatures(json_Municipio_fisicoII2026_1, 
+            {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'});
+var jsonSource_Municipio_fisicoII2026_1 = new ol.source.Vector({
+    attributions: ' ',
+});
+jsonSource_Municipio_fisicoII2026_1.addFeatures(features_Municipio_fisicoII2026_1);
+var lyr_Municipio_fisicoII2026_1 = new ol.layer.Vector({
+                declutter: false,
+                source:jsonSource_Municipio_fisicoII2026_1, 
+                style: style_Municipio_fisicoII2026_1,
+                popuplayertitle: 'Municipio_fisicoII2026',
+                interactive: true,
+    title: 'Municipio_fisicoII2026<br />\
+    <img src="styles/legend/Municipio_fisicoII2026_1_0.png" /> 0 - 15.8<br />\
+    <img src="styles/legend/Municipio_fisicoII2026_1_1.png" /> 15.8 - 23.4<br />\
+    <img src="styles/legend/Municipio_fisicoII2026_1_2.png" /> 23.4 - 27.7<br />\
+    <img src="styles/legend/Municipio_fisicoII2026_1_3.png" /> 27.7 - 31.3<br />\
+    <img src="styles/legend/Municipio_fisicoII2026_1_4.png" /> 31.3 - 34.2<br />\
+    <img src="styles/legend/Municipio_fisicoII2026_1_5.png" /> 34.2 - 38.5<br />\
+    <img src="styles/legend/Municipio_fisicoII2026_1_6.png" /> 38.5 - 42<br />\
+    <img src="styles/legend/Municipio_fisicoII2026_1_7.png" /> 42 - 46.9<br />\
+    <img src="styles/legend/Municipio_fisicoII2026_1_8.png" /> 46.9 - 51.9<br />\
+    <img src="styles/legend/Municipio_fisicoII2026_1_9.png" /> 51.9 - 77.5<br />' });
+
+lyr_Belice_0.setVisible(true);lyr_Municipio_fisicoII2026_1.setVisible(true);
+var layersList = [lyr_Belice_0,lyr_Municipio_fisicoII2026_1];
+lyr_Belice_0.set('fieldAliases', {'iso2': 'iso2', 'iso3': 'iso3', 'adm0_name': 'adm0_name', 'adm0_name1': 'adm0_name1', 'adm0_name2': 'adm0_name2', 'adm0_name3': 'adm0_name3', 'adm0_pcode': 'adm0_pcode', 'valid_on': 'valid_on', 'valid_to': 'valid_to', 'version': 'version', 'area_sqkm': 'area_sqkm', 'lang': 'lang', 'lang1': 'lang1', 'lang2': 'lang2', 'lang3': 'lang3', 'adm0_ref_n': 'adm0_ref_n', 'center_lat': 'center_lat', 'center_lon': 'center_lon', 'Mensaje': 'Mensaje', 'dddddd': 'dddddd', 'aaaaaa': 'aaaaaa', });
+lyr_Municipio_fisicoII2026_1.set('fieldAliases', {'adm2_name': 'adm2_name', 'adm2_name1': 'adm2_name1', 'adm2_name2': 'adm2_name2', 'adm2_name3': 'adm2_name3', 'adm2_pcode': 'adm2_pcode', 'adm1_name': 'adm1_name', 'adm1_name1': 'adm1_name1', 'adm1_name2': 'adm1_name2', 'adm1_name3': 'adm1_name3', 'adm1_pcode': 'adm1_pcode', 'adm0_name': 'adm0_name', 'adm0_name1': 'adm0_name1', 'adm0_name2': 'adm0_name2', 'adm0_name3': 'adm0_name3', 'adm0_pcode': 'adm0_pcode', 'valid_on': 'valid_on', 'valid_to': 'valid_to', 'area_sqkm': 'area_sqkm', 'version': 'version', 'lang': 'lang', 'lang1': 'lang1', 'lang2': 'lang2', 'lang3': 'lang3', 'adm2_ref_n': 'adm2_ref_n', 'center_lat': 'center_lat', 'center_lon': 'center_lon', 'DCódigo': 'DCódigo', 'Dadm2_pcod': 'Dadm2_pcod', 'DMunicipio': 'DMunicipio', 'DDepartame': 'DDepartame', 'D%financie': 'D%financie', 'D%Fisico': 'D%Fisico', 'Avanc_por': 'Avanc_por', });
+lyr_Belice_0.set('fieldImages', {'iso2': 'TextEdit', 'iso3': 'TextEdit', 'adm0_name': 'TextEdit', 'adm0_name1': 'TextEdit', 'adm0_name2': 'TextEdit', 'adm0_name3': 'TextEdit', 'adm0_pcode': 'TextEdit', 'valid_on': 'DateTime', 'valid_to': 'DateTime', 'version': 'TextEdit', 'area_sqkm': 'TextEdit', 'lang': 'TextEdit', 'lang1': 'TextEdit', 'lang2': 'TextEdit', 'lang3': 'TextEdit', 'adm0_ref_n': 'TextEdit', 'center_lat': 'TextEdit', 'center_lon': 'TextEdit', 'Mensaje': 'TextEdit', 'dddddd': 'TextEdit', 'aaaaaa': 'TextEdit', });
+lyr_Municipio_fisicoII2026_1.set('fieldImages', {'adm2_name': 'TextEdit', 'adm2_name1': 'TextEdit', 'adm2_name2': 'TextEdit', 'adm2_name3': 'TextEdit', 'adm2_pcode': 'TextEdit', 'adm1_name': 'TextEdit', 'adm1_name1': 'TextEdit', 'adm1_name2': 'TextEdit', 'adm1_name3': 'TextEdit', 'adm1_pcode': 'TextEdit', 'adm0_name': 'TextEdit', 'adm0_name1': 'TextEdit', 'adm0_name2': 'TextEdit', 'adm0_name3': 'TextEdit', 'adm0_pcode': 'TextEdit', 'valid_on': 'DateTime', 'valid_to': 'DateTime', 'area_sqkm': 'TextEdit', 'version': 'TextEdit', 'lang': 'TextEdit', 'lang1': 'TextEdit', 'lang2': 'TextEdit', 'lang3': 'TextEdit', 'adm2_ref_n': 'TextEdit', 'center_lat': 'TextEdit', 'center_lon': 'TextEdit', 'DCódigo': 'TextEdit', 'Dadm2_pcod': 'TextEdit', 'DMunicipio': 'TextEdit', 'DDepartame': 'TextEdit', 'D%financie': 'TextEdit', 'D%Fisico': 'TextEdit', 'Avanc_por': 'TextEdit', });
+lyr_Belice_0.set('fieldLabels', {'iso2': 'hidden field', 'iso3': 'hidden field', 'adm0_name': 'hidden field', 'adm0_name1': 'hidden field', 'adm0_name2': 'hidden field', 'adm0_name3': 'hidden field', 'adm0_pcode': 'hidden field', 'valid_on': 'hidden field', 'valid_to': 'hidden field', 'version': 'hidden field', 'area_sqkm': 'hidden field', 'lang': 'hidden field', 'lang1': 'hidden field', 'lang2': 'hidden field', 'lang3': 'hidden field', 'adm0_ref_n': 'hidden field', 'center_lat': 'hidden field', 'center_lon': 'hidden field', 'Mensaje': 'no label', 'dddddd': 'no label', 'aaaaaa': 'no label', });
+lyr_Municipio_fisicoII2026_1.set('fieldLabels', {'adm2_name': 'hidden field', 'adm2_name1': 'hidden field', 'adm2_name2': 'hidden field', 'adm2_name3': 'hidden field', 'adm2_pcode': 'hidden field', 'adm1_name': 'hidden field', 'adm1_name1': 'hidden field', 'adm1_name2': 'hidden field', 'adm1_name3': 'hidden field', 'adm1_pcode': 'hidden field', 'adm0_name': 'hidden field', 'adm0_name1': 'hidden field', 'adm0_name2': 'hidden field', 'adm0_name3': 'hidden field', 'adm0_pcode': 'hidden field', 'valid_on': 'hidden field', 'valid_to': 'hidden field', 'area_sqkm': 'hidden field', 'version': 'hidden field', 'lang': 'hidden field', 'lang1': 'hidden field', 'lang2': 'hidden field', 'lang3': 'hidden field', 'adm2_ref_n': 'hidden field', 'center_lat': 'hidden field', 'center_lon': 'hidden field', 'DCódigo': 'hidden field', 'Dadm2_pcod': 'hidden field', 'DMunicipio': 'no label', 'DDepartame': 'no label', 'D%financie': 'hidden field', 'D%Fisico': 'hidden field', 'Avanc_por': 'no label', });
+lyr_Municipio_fisicoII2026_1.on('precompose', function(evt) {
+    evt.context.globalCompositeOperation = 'normal';
+});
