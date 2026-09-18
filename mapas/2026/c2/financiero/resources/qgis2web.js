@@ -17,6 +17,7 @@ map.getView().fit([-10404547.272172, 1581537.322140, -9595917.050325, 2044320.32
 size: map.getSize(),
 padding: [35, 35, 35, 35]
 	}
+);
 //change cursor
 function pointerOnFeature(evt) {
     if (evt.dragging) {
